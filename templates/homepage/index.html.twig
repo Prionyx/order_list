@@ -4,4 +4,15 @@
 
 {% block body %}
     <h2>Order list</h2>
+
+    <table>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.email }}</td>
+                <td>{{ order.status }}</td>
+                <td>{{ order.summ }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
