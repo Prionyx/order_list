@@ -6,12 +6,18 @@
     <h2>Order list</h2>
 
     {%  if total > 0 %}
-        <div>There are {{ total }} orders:</div>
+        <p>There are {{ total }} orders:</p>
 
-        <table>
+        <table class="table">
+            <thead class="thead-dark">
+            <th scope="col">#</th>
+            <th scope="col">Email</th>
+            <th scope="col">Status</th>
+            <th scope="col">Summ</th>
+            </thead>
             {% for order in orders %}
                 <tr>
-                    <td>{{ order.id }}</td>
+                    <th scope="row">{{ order.id }}</th>
                     <td>{{ order.email }}</td>
                     <td>{{ order.status }}</td>
                     <td>{{ order.summ }}</td>
@@ -20,10 +26,10 @@
         </table>
 
         {% if previous >= 0 %}
-            <a href="{{ path('index', { offset: previous }) }}">Previous</a>
+            <a class="btn btn-primary" href="{{ path('index', { offset: previous }) }}" role="button">Previous</a>
         {% endif %}
         {% if next < total %}
-            <a href="{{ path('index', { offset: next }) }}">Next</a>
+            <a class="btn btn-primary" href="{{ path('index', { offset: next }) }}" role="button">Next</a>
         {% endif %}
     {% else %}
         <div>No comments have been posted yet for this conference.</div>
