@@ -5,14 +5,27 @@
 {% block body %}
     <h2>Order list</h2>
 
-    <table>
-        {% for order in orders %}
-            <tr>
-                <td>{{ order.id }}</td>
-                <td>{{ order.email }}</td>
-                <td>{{ order.status }}</td>
-                <td>{{ order.summ }}</td>
-            </tr>
-        {% endfor %}
-    </table>
+    {%  if total > 0 %}
+        <div>There are {{ total }} orders:</div>
+
+        <table>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.email }}</td>
+                    <td>{{ order.status }}</td>
+                    <td>{{ order.summ }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        {% if previous >= 0 %}
+            <a href="{{ path('index', { offset: previous }) }}">Previous</a>
+        {% endif %}
+        {% if next < total %}
+            <a href="{{ path('index', { offset: next }) }}">Next</a>
+        {% endif %}
+    {% else %}
+        <div>No comments have been posted yet for this conference.</div>
+    {% endif %}
 {% endblock %}
