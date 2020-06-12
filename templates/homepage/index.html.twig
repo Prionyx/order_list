@@ -14,13 +14,15 @@
             <th scope="col">Email</th>
             <th scope="col">Status</th>
             <th scope="col">Summ</th>
+            <th scope="col">Validation errors</th>
             </thead>
             {% for order in orders %}
                 <tr>
-                    <th scope="row">{{ order.id }}</th>
-                    <td>{{ order.email }}</td>
-                    <td>{{ order.status }}</td>
-                    <td>{{ order.summ }}</td>
+                    <th scope="row">{{ order.data.id }}</th>
+                    <td>{{ order.data.email }}</td>
+                    <td>{{ order.data.status }}</td>
+                    <td>{{ order.data.summ }}</td>
+                    <td>{{ order.errors|nl2br }}</td>
                 </tr>
             {% endfor %}
         </table>

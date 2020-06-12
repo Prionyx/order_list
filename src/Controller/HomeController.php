@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Twig\Environment;
 
@@ -28,17 +29,26 @@ class HomeController extends AbstractController
 
         $orders = [];
         foreach ($data['orders'] as $order) {
-            $orders[] = new Order(
+            $order = new Order(
                 $order['order_id'],
                 $order['email'],
                 $order['status'],
                 $order['summ']
             );
+            $orders[$order->getId()]['data'] = $order;
+            $orders[$order->getId()]['errors'] = '';
+            $errors = $validator->validate($order);
+            if ($errors->count() > 0) {
+                /** @var ConstraintViolation $error */
+                foreach ($errors as $error) {
+                    $orders[$order->getId()]['errors'] .= $error->getPropertyPath() .  ': ' . $error->getMessage() . PHP_EOL;
+                }
+            }
         }
 
         return new Response($twig->render(
             'homepage/index.html.twig',
-            compact('orders', 'total', 'previous', 'next')
+            compact('orders', 'total', 'previous', 'next', 'errors')
         ));
     }
 }
