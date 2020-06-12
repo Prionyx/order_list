@@ -1,0 +1,32 @@
+<div id="order_table">
+    {% if total > 0 %}
+        <p>There are {{ total }} orders:</p>
+        <table class="table">
+            <thead class="thead-dark">
+            <th scope="col">#</th>
+            <th scope="col">Email</th>
+            <th scope="col">Status</th>
+            <th scope="col">Summ</th>
+            <th scope="col">Validation errors</th>
+            </thead>
+            {% for order in orders %}
+                <tr>
+                    <th scope="row">{{ order.data.id }}</th>
+                    <td>{{ order.data.email }}</td>
+                    <td>{{ order.data.status }}</td>
+                    <td>{{ order.data.summ }}</td>
+                    <td>{{ order.errors|nl2br }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        {% if previous >= 0 %}
+            <a class="btn btn-primary" data-offset="{{ previous }}" href="#" role="button">Previous</a>
+        {% endif %}
+        {% if next < total %}
+            <a class="btn btn-primary" data-offset="{{ next }}" href="#" role="button">Next</a>
+        {% endif %}
+    {% else %}
+        <div>No comments have been posted yet for this conference.</div>
+    {% endif %}
+</div>

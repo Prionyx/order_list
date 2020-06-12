@@ -4,36 +4,38 @@
 
 {% block body %}
     <h2>Order list</h2>
+    <div id="orders_list"></div>
+{% endblock %}
 
-    {%  if total > 0 %}
-        <p>There are {{ total }} orders:</p>
-
-        <table class="table">
-            <thead class="thead-dark">
-            <th scope="col">#</th>
-            <th scope="col">Email</th>
-            <th scope="col">Status</th>
-            <th scope="col">Summ</th>
-            <th scope="col">Validation errors</th>
-            </thead>
-            {% for order in orders %}
-                <tr>
-                    <th scope="row">{{ order.data.id }}</th>
-                    <td>{{ order.data.email }}</td>
-                    <td>{{ order.data.status }}</td>
-                    <td>{{ order.data.summ }}</td>
-                    <td>{{ order.errors|nl2br }}</td>
-                </tr>
-            {% endfor %}
-        </table>
-
-        {% if previous >= 0 %}
-            <a class="btn btn-primary" href="{{ path('index', { offset: previous }) }}" role="button">Previous</a>
-        {% endif %}
-        {% if next < total %}
-            <a class="btn btn-primary" href="{{ path('index', { offset: next }) }}" role="button">Next</a>
-        {% endif %}
-    {% else %}
-        <div>No comments have been posted yet for this conference.</div>
-    {% endif %}
+{% block javascripts %}
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: "{{ path('orders') }}",
+                type:'GET',
+                success: function(data){
+                    $('#orders_list').html(data);
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX error: " + error);
+                }
+            });
+        });
+        $(document).on('click', 'a.btn.btn-primary', function (event) {
+            let offset = $(this).data('offset');
+            if (offset !== undefined) {
+                $.ajax({
+                    url: "{{ path('orders') }}",
+                    type: 'GET',
+                    data: {offset: offset},
+                    success: function (data) {
+                        $('#orders_list').html(data);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("AJAX error: " + error);
+                    }
+                });
+            }
+        });
+    </script>
 {% endblock %}
