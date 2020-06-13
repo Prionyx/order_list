@@ -17,10 +17,16 @@ class OrderController extends AbstractController
     /**
      * @Route("/orders", name="orders")
      */
-    public function show(Request $request, Environment $twig, ValidatorInterface $validator): Response
-    {
+    public function show(
+        Request $request,
+        Environment $twig,
+        ValidatorInterface $validator,
+        string $apiUser,
+        string $apiPass,
+        string $apiUrl
+    ): Response {
         $offset = max(0, $request->query->getInt('offset', 0));
-        $orderRepository = new OrderRepository();
+        $orderRepository = new OrderRepository($apiUser, $apiPass, $apiUrl);
         $data = $orderRepository->getData($offset);
 
         $total = $data['total'];
