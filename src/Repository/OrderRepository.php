@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use ShopExpress\ApiClient\ApiClient;
+use ApiClient;
 
 class OrderRepository
 {
