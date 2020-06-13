@@ -1,4 +1,5 @@
 # Порядок установки
 * make docker-up
 * make install
-* перейти в браузере по ссылке https://localhost:8080
+* Переименовать файл env.local в .env.local
+* Перейти в браузере по ссылке https://localhost:8080
